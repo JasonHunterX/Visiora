@@ -3,17 +3,20 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Wand2, Sparkles, History, Grid, LayoutGrid } from 'lucide-react';
 import { cn } from '../../utils/cn';
+import { useTranslation } from '../../contexts/LanguageContext';
 
 const ModernTabNavigation = ({ activeTab, onTabChange, historyCount = 0, showGalleryTab = false }) => {
+  const { t } = useTranslation();
+  
   let tabs = [
-    { id: 'generate', label: 'Generate', icon: Wand2, description: 'Create new images' },
-    { id: 'enhance', label: 'Enhance', icon: Sparkles, description: 'Improve prompts' },
-    { id: 'history', label: 'History', icon: History, description: 'View past creations', badge: historyCount }
+    { id: 'generate', label: t('tabs.generate.label'), icon: Wand2, description: t('tabs.generate.description') },
+    { id: 'enhance', label: t('tabs.enhance.label'), icon: Sparkles, description: t('tabs.enhance.description') },
+    { id: 'history', label: t('tabs.history.label'), icon: History, description: t('tabs.history.description'), badge: historyCount }
   ];
   
   // Add gallery tab if user is logged in
   if (showGalleryTab) {
-    tabs.splice(2, 0, { id: 'gallery', label: 'Gallery', icon: LayoutGrid, description: 'Your AI image gallery' });
+    tabs.splice(2, 0, { id: 'gallery', label: t('tabs.gallery.label'), icon: LayoutGrid, description: t('tabs.gallery.description') });
   }
 
   return (

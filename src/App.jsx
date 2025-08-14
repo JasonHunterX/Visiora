@@ -6,6 +6,7 @@ import { saveGeneratedImage } from "./api/imageServiceV2";
 import { useTheme } from "./hooks/useTheme";
 import useLocalStorage from "./hooks/useLocalStorage";
 import { AuthProvider, useAuthContext } from "./contexts/AuthContextV2";
+import { LanguageProvider, useTranslation } from "./contexts/LanguageContext";
 
 
 // Layout Components
@@ -160,6 +161,7 @@ TabLoader.displayName = 'TabLoader';
 
 
 function App({ authContext, showLoginPrompt, setShowLoginPrompt }) {
+  const { t } = useTranslation();
   // State management with better initial values
   const [inputPrompt, setInputPrompt] = useState("");
   const [imageUrl, setImageUrl] = useState(null);
@@ -189,19 +191,19 @@ function App({ authContext, showLoginPrompt, setShowLoginPrompt }) {
 
   // Memoized configuration objects for better performance
   const shapes = useMemo(() => ({
-    landscape: { width: 1344, height: 768, label: "Landscape (16:9)" },
-    portrait: { width: 768, height: 1344, label: "Portrait (9:16)" },
-    square: { width: 1024, height: 1024, label: "Square (1:1)" },
-    wide: { width: 1536, height: 640, label: "Wide (21:9)" },
-    story: { width: 576, height: 1024, label: "Story (9:16)" },
-    manual: { width: 1024, height: 1024, label: "Manual" },
-  }), []);
+    landscape: { width: 1344, height: 768, label: t('dimensions.landscape') },
+    portrait: { width: 768, height: 1344, label: t('dimensions.portrait') },
+    square: { width: 1024, height: 1024, label: t('dimensions.square') },
+    wide: { width: 1536, height: 640, label: t('dimensions.wide') },
+    story: { width: 576, height: 1024, label: t('dimensions.story') },
+    manual: { width: 1024, height: 1024, label: t('dimensions.manual') },
+  }), [t]);
 
   const models = useMemo(() => ([
-    { value: "flux", label: "Flux (Best Quality)" },
-    { value: "turbo", label: "Turbo (Fastest)" },
-    { value: "kontext", label: "Kontext (Artistic)" },
-  ]), []);
+    { value: "flux", label: t('models.flux') },
+    { value: "turbo", label: t('models.turbo') },
+    { value: "kontext", label: t('models.kontext') },
+  ]), [t]);
 
   // Memoized progress simulation
   const simulateProgress = useCallback(() => {
@@ -221,7 +223,7 @@ function App({ authContext, showLoginPrompt, setShowLoginPrompt }) {
   // Optimized image generation handler
   const handleGenerateClick = useCallback(async () => {
     if (!inputPrompt.trim()) {
-      alert("Please enter a prompt!");
+      alert(t('errors.promptRequired'));
       return;
     }
     
@@ -236,21 +238,22 @@ function App({ authContext, showLoginPrompt, setShowLoginPrompt }) {
       }
     }
     
+    // TEMPORARY: Credit check disabled - unlimited generation for testing
     // Check if user has credits
-    const hasCredits = await authContext.spendCredit();
+    // const hasCredits = await authContext.spendCredit();
     
 
     
-    if (!hasCredits) {
-      // Different messages for logged in vs anonymous users
-      if (authContext.user) {
-        setError("You don't have enough credits. Login tomorrow to receive 5 free daily credits.");
-      } else {
-        setError("You don't have enough credits. Sign in to get 10 bonus credits!");
-        setShowLoginPrompt(true);
-      }
-      return;
-    }
+    // if (!hasCredits) {
+    //   // Different messages for logged in vs anonymous users
+    //   if (authContext.user) {
+    //     setError("You don't have enough credits. Login tomorrow to receive 5 free daily credits.");
+    //   } else {
+    //     setError("You don't have enough credits. Sign in to get 10 bonus credits!");
+    //     setShowLoginPrompt(true);
+    //   }
+    //   return;
+    // }
 
     setIsLoading(true);
     setError(null);
@@ -275,7 +278,7 @@ function App({ authContext, showLoginPrompt, setShowLoginPrompt }) {
       const finalSeed = seed || Math.floor(Math.random() * 1000);
 
       // Build API URL
-      let apiUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${finalWidth}&height=${finalHeight}&model=${selectedModel}&enhance=true&seed=${finalSeed}`;
+      let apiUrl = `https://image.pollinations.ai/prompt/${encodedPrompt}?width=${finalWidth}&height=${finalHeight}&model=${selectedModel}&enhance=true&seed=${finalSeed}&nologo=true`;
 
       if (removeWatermark) {
         apiUrl += "&nologo=true";
@@ -701,11 +704,13 @@ function AppWithAuth() {
   );
 }
 
-// Main export with auth wrapper
+// Main export with providers wrapper
 export default function AppContainer() {
   return (
-    <AuthProvider>
-      <AppWithAuth />
-    </AuthProvider>
+    <LanguageProvider>
+      <AuthProvider>
+        <AppWithAuth />
+      </AuthProvider>
+    </LanguageProvider>
   );
 }

@@ -20,6 +20,7 @@ import CustomInput from '../ui/CustomInput';
 import ExamplePromptsGrid from '../examples/ExamplePromptsGrid';
 import SaveProjectModal from '../projects/SaveProjectModal';
 import { useAuthContext } from '../../contexts/AuthContextV2';
+import { useTranslation } from '../../contexts/LanguageContext';
 import { cn } from '../../utils/cn';
 
 const ModernGenerateTab = memo(({
@@ -53,14 +54,15 @@ const ModernGenerateTab = memo(({
 }) => {
   const [isSaveModalOpen, setIsSaveModalOpen] = useState(false);
   const { user } = useAuthContext();
+  const { t } = useTranslation();
   
   const categories = [
-    { id: 'portrait', label: 'Portrait', icon: '👤' },
-    { id: 'landscape', label: 'Landscape', icon: '🏔️' },
-    { id: 'fantasy', label: 'Fantasy', icon: '🧙' },
-    { id: 'scifi', label: 'Sci-Fi', icon: '🚀' },
-    { id: 'anime', label: 'Anime', icon: '🎌' },
-    { id: 'surprise', label: 'Surprise', icon: '🎲' }
+    { id: 'portrait', label: t('generate.categories.portrait'), icon: '👤' },
+    { id: 'landscape', label: t('generate.categories.landscape'), icon: '🏔️' },
+    { id: 'fantasy', label: t('generate.categories.fantasy'), icon: '🧙' },
+    { id: 'scifi', label: t('generate.categories.scifi'), icon: '🚀' },
+    { id: 'anime', label: t('generate.categories.anime'), icon: '🎌' },
+    { id: 'surprise', label: t('generate.categories.surprise'), icon: '🎲' }
   ];
 
   const handleDownload = () => {
@@ -83,7 +85,7 @@ const ModernGenerateTab = memo(({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Sparkles className="w-5 h-5 text-purple-400" />
-                <h3 className="text-lg font-semibold text-slate-800 dark:text-white">Describe Your Vision</h3>
+                <h3 className="text-lg font-semibold text-slate-800 dark:text-white">{t('generate.title')}</h3>
               </div>
               <div className="flex gap-2">
                 <CustomButton
@@ -93,7 +95,7 @@ const ModernGenerateTab = memo(({
                   icon={Zap}
                   className="text-xs"
                 >
-                  Quick
+                  {t('generate.buttons.quick')}
                 </CustomButton>
                 <CustomButton
                   variant="ghost"
@@ -104,7 +106,7 @@ const ModernGenerateTab = memo(({
                   loading={isGeneratingRandom}
                   className="text-xs"
                 >
-                  AI Random
+                  {t('generate.buttons.aiRandom')}
                 </CustomButton>
               </div>
             </div>
@@ -112,7 +114,7 @@ const ModernGenerateTab = memo(({
             <motion.textarea
               value={inputPrompt}
               onChange={(e) => setInputPrompt(e.target.value)}
-              placeholder="A majestic dragon soaring through storm clouds, lightning illuminating its scales, cinematic lighting, ultra detailed..."
+              placeholder={t('generate.placeholder')}
               className="w-full h-32 resize-none rounded-xl border border-slate-300/50 dark:border-white/10 bg-slate-100/50 dark:bg-white/5 px-4 py-3 text-slate-800 dark:text-white placeholder-slate-500 dark:placeholder-white/50 backdrop-blur-md transition-all duration-200 focus:border-purple-500/50 focus:bg-slate-200/50 dark:focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-purple-500/20"
               whileFocus={{ scale: 1.01 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
@@ -120,7 +122,7 @@ const ModernGenerateTab = memo(({
 
             {/* Category Buttons */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-slate-700 dark:text-white/80">🎨 Quick Categories:</label>
+              <label className="text-sm font-medium text-slate-700 dark:text-white/80">{t('generate.categories.title')}</label>
               <div className="grid grid-cols-3 gap-2">
                 {categories.map((category) => (
                   <CustomButton
@@ -155,13 +157,13 @@ const ModernGenerateTab = memo(({
           <div className="space-y-4">
             <div className="flex items-center gap-2">
               <Settings className="w-5 h-5 text-purple-400" />
-              <h3 className="text-lg font-semibold text-slate-800 dark:text-white">Generation Settings</h3>
+              <h3 className="text-lg font-semibold text-slate-800 dark:text-white">{t('generate.settings.title')}</h3>
             </div>
 
             <div className="grid md:grid-cols-2 gap-4">
               {/* Model Selection */}
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-slate-700 dark:text-white/80">AI Model</label>
+                <label className="block text-sm font-medium text-slate-700 dark:text-white/80">{t('generate.settings.model')}</label>
                 <select
                   value={selectedModel}
                   onChange={(e) => setSelectedModel(e.target.value)}
@@ -177,7 +179,7 @@ const ModernGenerateTab = memo(({
 
               {/* Dimensions */}
               <div className="space-y-2">
-                <label className="block text-sm font-medium text-slate-700 dark:text-white/80">Dimensions</label>
+                <label className="block text-sm font-medium text-slate-700 dark:text-white/80">{t('generate.settings.dimensions')}</label>
                 <select
                   value={selectedShape}
                   onChange={(e) => setSelectedShape(e.target.value)}
@@ -204,7 +206,7 @@ const ModernGenerateTab = memo(({
                 >
                   <CustomInput
                     type="number"
-                    label="Width"
+                    label={t('generate.settings.width')}
                     value={width}
                     onChange={(e) => setWidth(Number(e.target.value))}
                     min="256"
@@ -213,7 +215,7 @@ const ModernGenerateTab = memo(({
                   />
                   <CustomInput
                     type="number"
-                    label="Height"
+                    label={t('generate.settings.height')}
                     value={height}
                     onChange={(e) => setHeight(Number(e.target.value))}
                     min="256"
@@ -227,10 +229,10 @@ const ModernGenerateTab = memo(({
             {/* Seed and Options */}
             <div className="space-y-4">
               <CustomInput
-                label="Seed (Optional)"
+                label={t('generate.settings.seed')}
                 value={seed}
                 onChange={(e) => setSeed(e.target.value)}
-                placeholder="Random seed for reproducible results"
+                placeholder={t('generate.settings.seedPlaceholder')}
               />
 
               <label className="flex items-center gap-3 cursor-pointer">
@@ -260,7 +262,7 @@ const ModernGenerateTab = memo(({
                     )}
                   </div>
                 </div>
-                <span className="text-sm text-slate-700 dark:text-white/80">Remove watermark</span>
+                <span className="text-sm text-slate-700 dark:text-white/80">{t('generate.settings.removeWatermark')}</span>
               </label>
             </div>
           </div>
@@ -275,7 +277,7 @@ const ModernGenerateTab = memo(({
           className="w-full"
           icon={isLoading ? null : Sparkles}
         >
-          {isLoading ? `Generating... ${Math.round(progress)}%` : 'Generate Image'}
+          {isLoading ? `${t('generate.buttons.generating')} ${Math.round(progress)}%` : t('generate.buttons.generate')}
         </CustomButton>
       </div>
 
@@ -286,7 +288,7 @@ const ModernGenerateTab = memo(({
             <div className="flex items-center justify-between mb-3">
               <div className="flex items-center gap-2">
                 <ImageIcon className="w-5 h-5 text-purple-400" />
-                <h3 className="text-lg font-semibold text-slate-800 dark:text-white">Generated Image</h3>
+                <h3 className="text-lg font-semibold text-slate-800 dark:text-white">{t('generate.imageDisplay.title')}</h3>
               </div>
               {imageUrl && imageLoaded && (
                 <div className="flex space-x-2">
@@ -296,9 +298,9 @@ const ModernGenerateTab = memo(({
                     onClick={() => setIsSaveModalOpen(true)}
                     icon={FolderPlus}
                     disabled={!user}
-                    title={!user ? "Sign in to save to library" : "Save to Library"}
+                    title={!user ? t('generate.tooltips.saveLogin') : t('generate.buttons.save')}
                   >
-                    Save
+                    {t('generate.buttons.save')}
                   </CustomButton>
                   <CustomButton
                     variant="ghost"
@@ -306,7 +308,7 @@ const ModernGenerateTab = memo(({
                     onClick={handleDownload}
                     icon={Download}
                   >
-                    Download
+                    {t('generate.buttons.download')}
                   </CustomButton>
                 </div>
               )}
@@ -350,7 +352,7 @@ const ModernGenerateTab = memo(({
                           <div className="text-center space-y-4">
                             <div className="w-12 h-12 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mx-auto" />
                             <div className="space-y-2">
-                              <p className="text-slate-800 dark:text-white text-sm">Generating your image...</p>
+                              <p className="text-slate-800 dark:text-white text-sm">{t('generate.imageDisplay.generating')}</p>
                               <div className="w-48 h-2 bg-slate-300/50 dark:bg-white/10 rounded-full overflow-hidden">
                                 <motion.div
                                   className="h-full bg-gradient-to-r from-purple-500 to-pink-500"
@@ -359,7 +361,7 @@ const ModernGenerateTab = memo(({
                                   transition={{ duration: 0.3 }}
                                 />
                               </div>
-                              <p className="text-slate-600 dark:text-white/60 text-xs">{Math.round(progress)}% complete</p>
+                              <p className="text-slate-600 dark:text-white/60 text-xs">{Math.round(progress)}% {t('generate.imageDisplay.complete')}</p>
                             </div>
                           </div>
                         </motion.div>
@@ -378,9 +380,9 @@ const ModernGenerateTab = memo(({
                         <Sparkles className="w-8 h-8 text-purple-400" />
                       </div>
                       <div>
-                        <h4 className="text-lg font-medium text-slate-800 dark:text-white/90 mb-2">Ready to Create</h4>
+                        <h4 className="text-lg font-medium text-slate-800 dark:text-white/90 mb-2">{t('generate.imageDisplay.ready')}</h4>
                         <p className="text-sm text-slate-600 dark:text-white/60 max-w-xs">
-                          Enter a prompt and click generate to create your first AI image
+                          {t('generate.imageDisplay.readyDesc')}
                         </p>
                       </div>
                     </div>

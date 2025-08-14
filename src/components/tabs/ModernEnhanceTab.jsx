@@ -5,6 +5,7 @@ import { Sparkles, Wand2, X, Zap, Stars } from "lucide-react";
 import GlassCard from "../ui/GlassCard";
 import CustomButton from "../ui/CustomButton";
 import ExamplePromptsGrid from "../examples/ExamplePromptsGrid";
+import { useTranslation } from "../../contexts/LanguageContext";
 
 import { cn } from "../../utils/cn";
 
@@ -14,12 +15,13 @@ const ModernEnhanceTab = memo(({
   isEnhancing,
   handleEnhancePrompt,
 }) => {
+  const { t } = useTranslation();
   const [selectedStyles, setSelectedStyles] = useState([]);
   const [showStylesAppliedPopup, setShowStylesAppliedPopup] = useState(false);
 
   const styleCategories = [
     {
-      title: "Quality",
+      title: t('enhance.manual.categories.quality'),
       icon: "💎",
       styles: [
         "ultra high resolution",
@@ -31,7 +33,7 @@ const ModernEnhanceTab = memo(({
       ],
     },
     {
-      title: "Lighting",
+      title: t('enhance.manual.categories.lighting'),
       icon: "💡",
       styles: [
         "golden hour",
@@ -43,7 +45,7 @@ const ModernEnhanceTab = memo(({
       ],
     },
     {
-      title: "Style",
+      title: t('enhance.manual.categories.style'),
       icon: "🎨",
       styles: [
         "photorealistic",
@@ -55,7 +57,7 @@ const ModernEnhanceTab = memo(({
       ],
     },
     {
-      title: "Camera",
+      title: t('enhance.manual.categories.camera'),
       icon: "📸",
       styles: [
         "portrait",
@@ -67,7 +69,7 @@ const ModernEnhanceTab = memo(({
       ],
     },
     {
-      title: "Mood",
+      title: t('enhance.manual.categories.mood'),
       icon: "🌈",
       styles: [
         "ethereal",
@@ -83,8 +85,8 @@ const ModernEnhanceTab = memo(({
   const enhancePresets = [
     {
       id: "cinematic",
-      title: "🔮 Cinematic / Realistic",
-      description: "High-detail character portraits, movie scenes, dramatic shots",
+      title: t('enhance.presets.cinematic.title'),
+      description: t('enhance.presets.cinematic.description'),
       gradient: "from-purple-500 to-pink-500",
       styles: [
         "8k ultra quality",
@@ -97,8 +99,8 @@ const ModernEnhanceTab = memo(({
     },
     {
       id: "aesthetic",
-      title: "🎨 Aesthetic / Minimalist",
-      description: "Social media aesthetics, wallpapers, lifestyle shots",
+      title: t('enhance.presets.aesthetic.title'),
+      description: t('enhance.presets.aesthetic.description'),
       gradient: "from-pink-500 to-rose-500",
       styles: [
         "aesthetic composition",
@@ -111,8 +113,8 @@ const ModernEnhanceTab = memo(({
     },
     {
       id: "anime",
-      title: "🌀 Anime / Manga Inspired",
-      description: "Anime portraits, fight scenes, cute characters",
+      title: t('enhance.presets.anime.title'),
+      description: t('enhance.presets.anime.description'),
       gradient: "from-cyan-500 to-blue-500",
       styles: [
         "anime style shading",
@@ -125,8 +127,8 @@ const ModernEnhanceTab = memo(({
     },
     {
       id: "fantasy",
-      title: "🧚 Fantasy / Mythical",
-      description: "Magical worlds, elves, RPGs, godly characters",
+      title: t('enhance.presets.fantasy.title'),
+      description: t('enhance.presets.fantasy.description'),
       gradient: "from-emerald-500 to-teal-500",
       styles: [
         "epic fantasy lighting",
@@ -139,8 +141,8 @@ const ModernEnhanceTab = memo(({
     },
     {
       id: "cartoon",
-      title: "🎭 Cartoon / Pixar Style",
-      description: "Fun, vibrant, kid-friendly, storytelling scenes",
+      title: t('enhance.presets.cartoon.title'),
+      description: t('enhance.presets.cartoon.description'),
       gradient: "from-orange-500 to-yellow-500",
       styles: [
         "pixar animation style",
@@ -161,7 +163,7 @@ const ModernEnhanceTab = memo(({
 
   const applyPreset = (preset) => {
     if (!inputPrompt.trim()) {
-      alert("Please enter a prompt first!");
+      alert(t('enhance.messages.enterPromptFirst'));
       return;
     }
 
@@ -174,7 +176,7 @@ const ModernEnhanceTab = memo(({
 
   const enhanceWithStyles = () => {
     if (!inputPrompt.trim()) {
-      alert("Please enter a prompt first!");
+      alert(t('enhance.messages.enterPromptFirst'));
       return;
     }
 
@@ -207,17 +209,17 @@ const ModernEnhanceTab = memo(({
               <Sparkles className="w-5 h-5 text-slate-600 dark:text-white" />
             </div>
             <div>
-              <h3 className="text-xl font-semibold text-slate-800 dark:text-white">AI Prompt Enhancer</h3>
-              <p className="text-sm text-slate-600 dark:text-white/60">Transform your ideas into detailed prompts</p>
+              <h3 className="text-xl font-semibold text-slate-800 dark:text-white">{t('enhance.ai.title')}</h3>
+              <p className="text-sm text-slate-600 dark:text-white/60">{t('enhance.ai.subtitle')}</p>
             </div>
           </div>
 
           <div className="space-y-4">
-            <label className="block text-sm font-medium text-slate-700 dark:text-white/80">Current Prompt:</label>
+            <label className="block text-sm font-medium text-slate-700 dark:text-white/80">{t('enhance.ai.currentPrompt')}</label>
             <motion.textarea
               value={inputPrompt}
               onChange={(e) => setInputPrompt(e.target.value)}
-              placeholder="Enter your base idea... (e.g., 'a dragon in a forest')"
+              placeholder={t('enhance.ai.placeholder')}
               className="w-full h-32 resize-none rounded-xl border border-slate-300/50 dark:border-white/10 bg-slate-100/50 dark:bg-white/5 px-4 py-3 text-slate-800 dark:text-white placeholder-slate-500 dark:placeholder-white/50 backdrop-blur-md transition-all duration-200 focus:border-purple-500/50 focus:bg-slate-200/50 dark:focus:bg-white/10 focus:outline-none focus:ring-2 focus:ring-purple-500/20"
               whileFocus={{ scale: 1.01 }}
               transition={{ type: "spring", stiffness: 300, damping: 25 }}
@@ -231,11 +233,11 @@ const ModernEnhanceTab = memo(({
               icon={isEnhancing ? null : Stars}
               className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
             >
-              {isEnhancing ? "Enhancing with AI..." : "✨ Enhance Prompt with AI"}
+              {isEnhancing ? t('enhance.ai.enhancing') : t('enhance.ai.button')}
             </CustomButton>
 
             <p className="text-xs text-slate-600 dark:text-white/60 text-center">
-              Our AI will add professional details, lighting, and artistic elements to your prompt
+              {t('enhance.ai.description')}
             </p>
           </div>
         </div>
@@ -249,8 +251,8 @@ const ModernEnhanceTab = memo(({
               <Wand2 className="w-5 h-5 text-slate-600 dark:text-white" />
             </div>
             <div>
-              <h3 className="text-xl font-semibold text-slate-800 dark:text-white">Style Presets</h3>
-              <p className="text-sm text-slate-600 dark:text-white/60">Quick apply professional enhancement styles</p>
+              <h3 className="text-xl font-semibold text-slate-800 dark:text-white">{t('enhance.presets.title')}</h3>
+              <p className="text-sm text-slate-600 dark:text-white/60">{t('enhance.presets.subtitle')}</p>
             </div>
           </div>
 
@@ -303,8 +305,8 @@ const ModernEnhanceTab = memo(({
                 <Zap className="w-5 h-5 text-slate-600 dark:text-white" />
               </div>
               <div>
-                <h3 className="text-xl font-semibold text-slate-800 dark:text-white">Manual Enhancement</h3>
-                <p className="text-sm text-slate-600 dark:text-white/60">Pick individual styles to customize your prompt</p>
+                <h3 className="text-xl font-semibold text-slate-800 dark:text-white">{t('enhance.manual.title')}</h3>
+                <p className="text-sm text-slate-600 dark:text-white/60">{t('enhance.manual.subtitle')}</p>
               </div>
             </div>
             
@@ -316,7 +318,7 @@ const ModernEnhanceTab = memo(({
                 icon={X}
                 disabled={selectedStyles.length === 0}
               >
-                Clear All
+                {t('enhance.manual.clearAll')}
               </CustomButton>
               <CustomButton
                 variant="secondary"
@@ -326,7 +328,7 @@ const ModernEnhanceTab = memo(({
                 icon={Wand2}
                 className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 hover:from-purple-600/30 hover:to-pink-600/30"
               >
-                Apply ({selectedStyles.length})
+                {t('enhance.manual.apply')} ({selectedStyles.length})
               </CustomButton>
             </div>
           </div>
@@ -362,7 +364,7 @@ const ModernEnhanceTab = memo(({
           {/* Selected Styles Preview */}
           {selectedStyles.length > 0 && (
             <div className="space-y-3 pt-4 border-t border-white/10">
-              <h4 className="font-semibold text-slate-800 dark:text-white">Selected Styles ({selectedStyles.length}):</h4>
+              <h4 className="font-semibold text-slate-800 dark:text-white">{t('enhance.manual.selectedStyles')} ({selectedStyles.length}):</h4>
               <div className="flex flex-wrap gap-2">
                 {selectedStyles.map((style) => (
                   <span
@@ -402,7 +404,7 @@ const ModernEnhanceTab = memo(({
               <div className="w-12 h-12 rounded-full bg-white flex items-center justify-center">
                 <span className="text-green-600 text-2xl font-bold">✓</span>
               </div>
-              <span className="font-bold text-xl">Styles Applied Successfully!</span>
+              <span className="font-bold text-xl">{t('enhance.messages.stylesApplied')}</span>
             </div>
           </motion.div>
         )}
