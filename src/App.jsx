@@ -548,7 +548,7 @@ function App({ authContext, showLoginPrompt, setShowLoginPrompt }) {
           isDarkMode={isDarkMode} 
           onThemeChange={toggleTheme}
           onLoginClick={() => setShowLoginPrompt(true)}
-        />      {/* Hero Section */}
+        />     
       <Hero />
 
       {/* Main Content */}

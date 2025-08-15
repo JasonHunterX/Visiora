@@ -294,9 +294,16 @@ export const ja = {
 
   // ヒーローセクション
   hero: {
-    title: 'アイデアを',
-    titleHighlight: '美しいビジュアル',
-    subtitle: 'わずか数語で息をのむようなAI生成画像を作成。創造性を解き放ち、想像を現実にしましょう。',
+    tagline: '想像力とAIが出会う場所',
+    title: '素晴らしい',
+    titleHighlight: 'AI画像を作成',
+    subtitle: '作られた',
+    typewriter: ['クリエイター', 'ドリーマー', 'ビジョナリー', 'あなた..'],
+    features: {
+      aiGeneration: 'AI生成',
+      smartEnhancement: 'スマート強化',
+      lightningFast: '超高速'
+    },
     cta: '今すぐ作成開始'
   }
 };

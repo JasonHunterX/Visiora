@@ -294,9 +294,16 @@ export const zhCN = {
 
   // 首页横幅
   hero: {
-    title: '将创意转化为',
-    titleHighlight: '惊艳视觉',
-    subtitle: '仅用几个词就能创造令人惊叹的 AI 生成图像。释放您的创造力，让想象力成为现实。',
+    tagline: '想象力与AI的完美融合',
+    title: '创造令人惊艳的',
+    titleHighlight: 'AI图像',
+    subtitle: '为',
+    typewriter: ['创作者', '梦想家', '远见者', '你..'],
+    features: {
+      aiGeneration: 'AI生成',
+      smartEnhancement: '智能增强',
+      lightningFast: '闪电般快速'
+    },
     cta: '立即开始创作'
   }
 };

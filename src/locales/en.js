@@ -294,9 +294,16 @@ export const en = {
 
   // Hero Section
   hero: {
-    title: 'Transform Ideas into',
-    titleHighlight: 'Stunning Visuals',
-    subtitle: 'Create breathtaking AI-generated images with just a few words. Unleash your creativity and bring your imagination to life.',
+    tagline: 'Where imagination meets AI',
+    title: 'Create Stunning',
+    titleHighlight: 'Images with AI',
+    subtitle: 'Built for',
+    typewriter: ['creators', 'dreamers', 'visionaries', 'you..'],
+    features: {
+      aiGeneration: 'AI Generation',
+      smartEnhancement: 'Smart Enhancement',
+      lightningFast: 'Lightning Fast'
+    },
     cta: 'Start Creating Now'
   }
 };

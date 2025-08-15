@@ -3,10 +3,12 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Sparkles, Wand2, Zap } from 'lucide-react';
 import TypewriterEffect from '../TypewriterEffect';
-import DotBackgroundDemo from '../ui/dot-background-demo';
-import { cn } from '../../lib/utils';
+import AHoleBackground from '../ui/AHoleBackground';
+import { useTranslation } from '../../contexts/LanguageContext';
 
 const Hero = () => {
+  const { t, tArray } = useTranslation();
+  
   const textVariants = {
     hidden: { opacity: 0, y: 20 },
     visible: (i) => ({
@@ -20,27 +22,12 @@ const Hero = () => {
     })
   };
 
-  const floatingWords = [
-    "Generate", "Enhance", "Transform", "Create", "Inspire", "Design", "Imagine", "Visualize",
-    "Dream", "Craft", "Build", "Invent", "Paint", "Sketch", "Art", "Magic"
-  ];
+  const floatingWords = [];
 
   return (
     <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden -translate-y-[20vh]">
-      {/* New Dot Background */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div
-          className={cn(
-            "absolute inset-0",
-            "[background-size:40px_40px]",
-            "[background-image:radial-gradient(#d4d4d4_2px,transparent_2px)]",
-            "dark:[background-image:radial-gradient(#404040_2px,transparent_2px)]",
-            "opacity-80 dark:opacity-60"
-          )}
-        />
-        {/* Radial gradient for faded look */}
-        <div className="pointer-events-none absolute inset-0 bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)] dark:bg-black opacity-40"></div>
-      </div>
+      {/* AHole Animation Background */}
+      <AHoleBackground />
       
       <div className="container mx-auto px-6 text-center relative z-10">
         {/* Main Title */}
@@ -56,7 +43,7 @@ const Hero = () => {
           >
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-200/50 dark:bg-white/10 border border-slate-300/50 dark:border-white/20 backdrop-blur-md text-sm text-slate-700 dark:text-white/80">
               <Sparkles className="w-4 h-4" />
-              <span>Where imagination meets AI</span>
+              <span>{t('hero.tagline')}</span>
             </div>
           </motion.div>
 
@@ -66,11 +53,11 @@ const Hero = () => {
             className="text-4xl md:text-6xl lg:text-7xl font-bold"
           >
             <span className="bg-gradient-to-r from-slate-800 via-slate-600 to-slate-700 dark:from-white dark:via-purple-200 dark:to-pink-200 bg-clip-text text-transparent">
-              Create Stunning
+              {t('hero.title')}
             </span>
             <br />
             <span className="bg-gradient-to-r from-purple-600 via-pink-600 to-cyan-600 dark:from-purple-400 dark:via-pink-400 dark:to-cyan-400 bg-clip-text text-transparent">
-              Images with AI
+              {t('hero.titleHighlight')}
             </span>
           </motion.h1>
 
@@ -79,14 +66,9 @@ const Hero = () => {
             variants={textVariants}
             className="text-lg md:text-xl text-slate-600 dark:text-white/70 max-w-2xl mx-auto leading-relaxed"
           >
-            Built for{" "}
+            {t('hero.subtitle')}{" "}
             <TypewriterEffect 
-              texts={[
-                "creators",
-                "dreamers", 
-                "visionaries",
-                "you.."
-              ]}
+              texts={tArray('hero.typewriter')}
               speed={150}
               delay={1500}
             />
@@ -99,16 +81,16 @@ const Hero = () => {
             className="flex flex-wrap gap-3 justify-center mt-8"
           >
             {[
-              { icon: Wand2, text: "AI Generation" },
-              { icon: Sparkles, text: "Smart Enhancement" },
-              { icon: Zap, text: "Lightning Fast" }
-            ].map(({ icon: Icon, text }, index) => (
+              { icon: Wand2, textKey: "hero.features.aiGeneration" },
+              { icon: Sparkles, textKey: "hero.features.smartEnhancement" },
+              { icon: Zap, textKey: "hero.features.lightningFast" }
+            ].map(({ icon: Icon, textKey }) => (
               <div
-                key={text}
+                key={textKey}
                 className="flex items-center gap-2 px-4 py-2 rounded-full bg-slate-200/30 dark:bg-white/5 border border-slate-300/30 dark:border-white/10 backdrop-blur-md text-slate-700 dark:text-white/80 hover:bg-slate-300/40 dark:hover:bg-white/10 transition-all duration-300"
               >
                 <Icon className="w-4 h-4" />
-                <span className="text-sm">{text}</span>
+                <span className="text-sm">{t(textKey)}</span>
               </div>
             ))}
           </motion.div>
