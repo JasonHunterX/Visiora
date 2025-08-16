@@ -305,5 +305,49 @@ export const en = {
       lightningFast: 'Lightning Fast'
     },
     cta: 'Start Creating Now'
+  },
+
+  // Examples Section
+  examples: {
+    title: 'Example Prompts',
+    clickToUse: 'Click to use',
+    tryThisPrompt: 'TRY THIS PROMPT',
+    categories: {
+      anime: 'Anime',
+      nature: 'Nature',
+      space: 'Space',
+      streets: 'Streets',
+      ghibliPixar: 'Ghibli/Pixar',
+      misc: 'Misc'
+    }
+  },
+
+  // History Section
+  history: {
+    title: 'Image History',
+    local: 'Local',
+    cloud: 'Cloud',
+    clearAll: 'Clear All',
+    loading: 'Loading your images...',
+    noHistoryYet: 'No History Yet',
+    noHistoryYetDesc: 'Your generated images will appear here. Start creating to build your collection!',
+    noCloudImages: 'No Cloud Images',
+    noCloudImagesDesc: 'Images you generate while logged in will be saved to your cloud history.',
+    generateImage: 'Generate an Image',
+    prompt: 'Prompt',
+    model: 'Model',
+    dimensions: 'Dimensions',
+    generatedOn: 'Generated on',
+    noPromptAvailable: 'No prompt available',
+    useThisPrompt: 'Use This Prompt',
+    downloadImage: 'Download Image',
+    deleteImage: 'Delete Image',
+    clearAllHistoryTitle: 'Clear All History',
+    clearAllHistoryDesc: 'Are you sure you want to clear your entire generation history? This action cannot be undone.',
+    deleteImageTitle: 'Delete This Image',
+    deleteImageDesc: 'Are you sure you want to delete this image from your history? This action cannot be undone.',
+    cancel: 'Cancel',
+    delete: 'Delete',
+    unknownDate: 'Unknown date'
   }
 };

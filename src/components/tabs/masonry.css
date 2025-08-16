@@ -1,88 +1,129 @@
 /* 
- * Dedicated masonry layout CSS optimized for variable height images
- * This is designed to show images in their original proportions
- * with consistent column widths but variable heights
+ * Optimized masonry layout CSS with improved spacing and animations
+ * Enhanced for better visual hierarchy and responsive design
  */
 
-/* Core masonry grid styles */
+/* Core masonry grid styles with optimized spacing */
 .masonry-grid {
   display: flex;
   width: auto;
-  margin-left: -16px; /* Gutter size */
+  margin-left: -12px; /* Reduced gutter for better density */
+  margin-right: -12px;
 }
 
 .masonry-grid-column {
-  padding-left: 16px; /* Gutter size */
+  padding-left: 12px; /* Matched gutter size */
+  padding-right: 12px;
   background-clip: padding-box;
   width: 100%; /* Ensures columns take equal space */
 }
 
-/* Individual masonry items */
+/* Individual masonry items with enhanced spacing */
 .masonry-item {
-  margin-bottom: 16px; /* Bottom margin between items */
+  margin-bottom: 20px; /* Slightly increased spacing for better breathing room */
   break-inside: avoid; /* Prevents item from breaking across columns */
+  transform: translateY(0); /* Prepare for animations */
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Container for the image to maintain aspect ratio */
-.masonry-image-container {
-  position: relative;
-  overflow: hidden;
-  border-radius: 8px;
-  background: rgba(0, 0, 0, 0.05);
-}
+/* Staggered animation on load */
+.masonry-item:nth-child(1) { animation-delay: 0.05s; }
+.masonry-item:nth-child(2) { animation-delay: 0.1s; }
+.masonry-item:nth-child(3) { animation-delay: 0.15s; }
+.masonry-item:nth-child(4) { animation-delay: 0.2s; }
+.masonry-item:nth-child(5) { animation-delay: 0.25s; }
+.masonry-item:nth-child(6) { animation-delay: 0.3s; }
 
-/* The actual image styling */
-.masonry-image {
-  width: 100%;
-  height: auto;
-  display: block;
-  transition: transform 0.3s ease;
-}
-
-/* Hover effects */
-.masonry-image-container:hover .masonry-image {
-  transform: scale(1.03);
-}
-
-/* Overlay on hover */
-.masonry-overlay {
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.4);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  display: flex;
-  align-items: flex-end;
-  padding: 16px;
-}
-
-.masonry-image-container:hover .masonry-overlay {
-  opacity: 1;
-}
-
-/* Loading placeholder */
-.masonry-placeholder {
-  position: absolute;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.1);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Safari-specific fixes */
-@supports (-webkit-appearance:none) {
+/* Enhanced responsive breakpoints */
+@media (max-width: 480px) {
   .masonry-grid {
-    width: calc(100% + 16px);
+    margin-left: -8px;
+    margin-right: -8px;
+  }
+  
+  .masonry-grid-column {
+    padding-left: 8px;
+    padding-right: 8px;
+  }
+  
+  .masonry-item {
+    margin-bottom: 16px; /* Tighter spacing on mobile */
   }
 }
 
-/* Animation classes */
-.masonry-fade-in {
-  animation: fadeIn 0.5s ease;
+@media (min-width: 1400px) {
+  .masonry-item {
+    margin-bottom: 24px; /* More breathing room on large screens */
+  }
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+/* Optimized loading skeleton */
+.masonry-skeleton {
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.1),
+    transparent
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Enhanced fade-in animation with scale */
+.masonry-fade-in {
+  animation: fadeInScale 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes fadeInScale {
+  from { 
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Improved hover effects with subtle shadow */
+.masonry-hover-effect {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.masonry-hover-effect:hover {
+  transform: translateY(-4px);
+  box-shadow: 
+    0 10px 25px -5px rgba(0, 0, 0, 0.1),
+    0 8px 10px -6px rgba(0, 0, 0, 0.1);
+}
+
+/* Dark mode enhancements */
+@media (prefers-color-scheme: dark) {
+  .masonry-hover-effect:hover {
+    box-shadow: 
+      0 10px 25px -5px rgba(0, 0, 0, 0.3),
+      0 8px 10px -6px rgba(0, 0, 0, 0.2);
+  }
+}
+
+/* Safari-specific fixes with updated gutters */
+@supports (-webkit-appearance:none) {
+  .masonry-grid {
+    width: calc(100% + 24px);
+  }
+  
+  @media (max-width: 480px) {
+    .masonry-grid {
+      width: calc(100% + 16px);
+    }
+  }
 }

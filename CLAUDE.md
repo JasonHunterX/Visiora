@@ -4,73 +4,84 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Visiora 是一个基于 React 的 AI 图像生成应用，使用 Pollinations AI API 生成图像。项目采用现代前端技术栈，包含完整的用户认证和积分系统。
+Visiora is a React-based AI image generation application using Pollinations AI API. The project features a modern tech stack with complete user authentication, credit system, and internationalization support (English, Chinese, Japanese).
 
 ## Development Commands
 
-### 必要的开发命令
-- `npm run dev` - 启动开发服务器 (Vite, 默认端口 5173)
-- `npm run build` - 生产环境构建
-- `npm run preview` - 预览生产构建
-- `npm run lint` - 运行 ESLint 代码检查
+### Essential Commands
+- `npm run dev` - Start development server (Vite, default port 5173)
+- `npm run build` - Production build
+- `npm run preview` - Preview production build
+- `npm run lint` - Run ESLint code checking
 
-### 测试命令
-此项目当前没有配置测试框架。如需添加测试，建议使用 Vitest。
+### Testing
+No testing framework is currently configured. If adding tests, Vitest is recommended for consistency with Vite.
 
 ## Architecture Overview
 
-### 核心架构模式
-- **React 18** 使用函数组件和 Hooks
-- **Context API** 用于全局状态管理（认证、积分系统）
-- **组件驱动开发** - 高度模块化的组件结构
-- **懒加载** - 非关键组件使用 React.lazy() 懒加载
-- **Suspense** - 配合懒加载提供加载状态
+### Core Architecture Patterns
+- **React 18** with functional components and hooks
+- **Context API** for global state management (auth, credits, internationalization)
+- **Component-driven development** with highly modular component structure
+- **Lazy loading** for non-critical components using React.lazy()
+- **Suspense** boundaries for loading states
+- **Code splitting** optimized through Vite configuration
 
-### 状态管理
-- `AuthContextV2.jsx` - 用户认证和积分管理的核心上下文
-- 自定义 hooks 用于复用状态逻辑 (`useAuth`, `useTheme`, `useLocalStorage`)
-- 本地存储用于历史记录和匿名用户积分
+### State Management Architecture
+- `AuthContextV2.jsx` - Core context for user authentication and credit management
+- `LanguageContext.jsx` - Internationalization context with support for en/zh-CN/ja
+- Custom hooks for reusable state logic (`useAuth`, `useTheme`, `useLocalStorage`, `useTranslation`)
+- Local storage for history tracking and anonymous user credits
+- Reducer pattern for complex state management
 
-### 关键服务集成
-- **Firebase Authentication** - 用户注册/登录/邮箱验证
-- **Firestore** - 用户数据、生成历史、积分存储
-- **Pollinations AI** - 图像生成和提示词增强
-- **Netlify** - 托管部署
+### Key Service Integrations
+- **Firebase Authentication** - User registration/login/email verification
+- **Firestore** - User data, generation history, and credit storage
+- **Pollinations AI** - Image generation and prompt enhancement API
+- **Netlify** - Hosting and deployment platform
 
 ## Code Structure
 
-### 组件层次结构
+### Component Hierarchy
 ```
-App.jsx (主容器)
-├── AuthProvider (认证上下文)
-├── Header (导航栏)
-├── Hero (英雄区块)
-├── ModernTabNavigation (选项卡导航)
-├── Tab Components (选项卡内容)
-│   ├── ModernGenerateTab (图像生成)
-│   ├── ModernEnhanceTab (提示词增强)
-│   ├── ModernMasonryHistoryTab (生成历史)
-│   └── GalleryPage (用户图库)
+App.jsx (main container)
+├── LanguageProvider (i18n context)
+├── AuthProvider (authentication context)
+├── Header (navigation bar with theme/language switchers)
+├── Hero (hero section with animated background)
+├── ModernTabNavigation (tab navigation)
+├── Tab Components (tab content)
+│   ├── ModernGenerateTab (image generation)
+│   ├── ModernEnhanceTab (prompt enhancement)
+│   ├── ModernMasonryHistoryTab (generation history with masonry layout)
+│   └── GalleryPage (user gallery)
 └── Footer
 ```
 
-### API 服务层
-- `pollinationService.js` - Pollinations AI 接口封装
-- `imageServiceV2.js` - 图像存储和管理
-- `userServiceV2.js` - 用户资料管理
-- `creditsServiceV2.js` - 积分系统核心逻辑
+### API Service Layer
+- `pollinationService.js` - Pollinations AI API integration
+- `imageServiceV2.js` - Image storage and management with Firestore
+- `userServiceV2.js` - User profile management
+- `creditsServiceV2.js` - Credit system core logic
 
-### 关键设计模式
-- **组合模式** - 复杂组件通过小组件组合
-- **自定义 Hooks** - 状态逻辑复用
-- **懒加载** - 性能优化
-- **错误边界** - 优雅错误处理
+### Internationalization System
+- `src/locales/` - Translation files for en/zh-CN/ja
+- `LanguageContext.jsx` - Language state management with automatic browser detection
+- Translation functions: `t()`, `tArray()`, `tWithVars()` for different use cases
+- Component-level internationalization implemented across Hero, ExamplePromptsGrid, and ModernMasonryHistoryTab
+
+### Key Design Patterns
+- **Composition pattern** - Complex components built from smaller components
+- **Custom hooks** - Reusable state logic
+- **Lazy loading** - Performance optimization for non-critical components
+- **Error boundaries** - Graceful error handling
+- **Provider pattern** - Context-based state management
 
 ## Firebase Configuration
 
-### 必需环境变量
-需要在 `.env` 文件中配置：
-```
+### Required Environment Variables
+Configure in `.env` file:
+```env
 VITE_FIREBASE_API_KEY=
 VITE_FIREBASE_AUTH_DOMAIN=
 VITE_FIREBASE_PROJECT_ID=
@@ -80,55 +91,74 @@ VITE_FIREBASE_APP_ID=
 VITE_FIREBASE_MEASUREMENT_ID=
 ```
 
-### Firestore 集合结构
-- `users` - 用户资料和积分信息
-- `user_images` - 用户生成的图像记录
+### Firestore Collection Structure
+- `users` - User profiles and credit information
+- `user_images` - User-generated image records with metadata
 
 ## Key Dependencies
 
-### 核心框架
-- **React 18.3.1** - 主框架
-- **Vite 7.0.4** - 构建工具
-- **Firebase 12.0.0** - 后端服务
+### Core Framework
+- **React 18.3.1** - Main framework with concurrent features
+- **Vite 7.0.4** - Build tool and dev server with HMR
+- **Firebase 12.0.0** - Backend services (Auth, Firestore)
 
-### UI 和动画
-- **Tailwind CSS 3.4** - 样式框架
-- **Framer Motion 12.23.12** - 动画库
-- **Radix UI** - 无头 UI 组件
-- **Lucide React** - 图标库
+### UI and Animation
+- **Tailwind CSS 3.4** - Utility-first CSS framework
+- **Framer Motion 12.23.12** - Animation library for React
+- **Radix UI** - Headless UI components for accessibility
+- **Lucide React** - Customizable icon library
+- **react-masonry-css** - Masonry layout for image galleries
 
-### 状态和数据
-- **React Context** - 全局状态
-- **自定义 hooks** - 状态逻辑复用
+### State and Data Management
+- **React Context** - Global state management
+- **Custom hooks** - Reusable stateful logic
+- **Local Storage** - Persistent client-side data
 
 ## Development Guidelines
 
-### 代码风格
-- 使用 ESLint 进行代码检查
-- 组件使用 PascalCase 命名
-- 文件名与组件名保持一致
-- 优先使用函数组件和 Hooks
+### Code Style and Architecture
+- ESLint configuration for code quality
+- PascalCase for components, camelCase for functions/variables
+- File names match component names
+- Functional components with hooks preferred over class components
+- Internationalization: Use `useTranslation()` hook and `t()` function for all user-facing text
 
-### 性能优化
-- 使用 React.memo() 防止不必要的重渲染
-- 懒加载非关键组件
-- 使用 useMemo() 和 useCallback() 优化计算
-- Vite 配置了代码分割优化
+### Performance Optimization
+- React.memo() for preventing unnecessary re-renders
+- Lazy loading for non-critical components using React.lazy()
+- useMemo() and useCallback() for expensive computations
+- Vite configuration includes code splitting with manual chunks for vendor libraries
+- Image lazy loading and optimized masonry layout for galleries
 
-### 错误处理
-- 所有 API 调用都包含 try-catch
-- 开发环境显示详细错误，生产环境用户友好提示
-- 使用 Suspense 处理异步组件加载
+### Error Handling and UX
+- All API calls wrapped in try-catch blocks
+- Development environment shows detailed errors, production shows user-friendly messages
+- Suspense boundaries for async component loading
+- Loading states and error boundaries throughout the application
+
+## Specialized Components
+
+### Masonry Layout (ModernMasonryHistoryTab)
+- Optimized responsive breakpoints: 4/3/2/1 columns based on screen size
+- Enhanced loading states with skeleton animations
+- Smooth hover effects with CSS transforms and shadows
+- Supports both local and cloud image storage
+
+### Internationalization Implementation
+- Add new translation keys to `src/locales/en.js`, `zh-CN.js`, and `ja.js`
+- Use `useTranslation()` hook in components: `const { t, tArray } = useTranslation()`
+- Translation keys use dot notation: `t('section.subsection.key')`
+- Arrays handled with `tArray('key')` for lists like typewriter effects
 
 ## Deployment
 
-### Netlify 部署
-- 构建命令: `npm run build`
-- 发布目录: `dist`
-- 需要在 Netlify 面板配置环境变量
-- `netlify.toml` 配置了重定向规则
+### Netlify Deployment
+- Build command: `npm run build`
+- Publish directory: `dist`
+- Environment variables configured in Netlify dashboard
+- `netlify.toml` includes redirect rules for SPA routing
 
-### 环境配置
-- 开发环境使用 `import.meta.env.DEV` 判断
-- 所有 Firebase 配置通过环境变量管理
-- 支持开发和生产环境的不同配置
+### Environment Configuration
+- Use `import.meta.env.DEV` for development checks
+- All Firebase configuration via environment variables
+- Separate configurations for development and production environments

@@ -3,12 +3,15 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Sparkles, Star } from 'lucide-react';
 import GlassCard from '../ui/GlassCard';
+import { useTranslation } from '../../contexts/LanguageContext';
 
 const ExamplePromptsGrid = ({ onPromptSelect }) => {
+  const { t } = useTranslation();
+  
   const categories = [
     {
       id: 'anime',
-      title: 'Anime',
+      titleKey: 'examples.categories.anime',
       emoji: '🎌',
       gradient: 'from-pink-500 to-red-500',
       examples: [
@@ -32,7 +35,7 @@ const ExamplePromptsGrid = ({ onPromptSelect }) => {
     },
     {
       id: 'nature',
-      title: 'Nature',
+      titleKey: 'examples.categories.nature',
       emoji: '🌲',
       gradient: 'from-green-500 to-emerald-500',
       examples: [
@@ -56,7 +59,7 @@ const ExamplePromptsGrid = ({ onPromptSelect }) => {
     },
     {
       id: 'space',
-      title: 'Space',
+      titleKey: 'examples.categories.space',
       emoji: '🌌',
       gradient: 'from-purple-500 to-indigo-500',
       examples: [
@@ -80,7 +83,7 @@ const ExamplePromptsGrid = ({ onPromptSelect }) => {
     },
     {
       id: 'streets',
-      title: 'Streets',
+      titleKey: 'examples.categories.streets',
       emoji: '🏙️',
       gradient: 'from-cyan-500 to-blue-500',
       examples: [
@@ -104,7 +107,7 @@ const ExamplePromptsGrid = ({ onPromptSelect }) => {
     },
     {
       id: 'ghibli-pixar',
-      title: 'Ghibli/Pixar',
+      titleKey: 'examples.categories.ghibliPixar',
       emoji: '🎥',
       gradient: 'from-orange-500 to-red-500',
       examples: [
@@ -128,7 +131,7 @@ const ExamplePromptsGrid = ({ onPromptSelect }) => {
     },
     {
       id: 'misc',
-      title: 'Misc',
+      titleKey: 'examples.categories.misc',
       emoji: '🌀',
       gradient: 'from-yellow-500 to-pink-500',
       examples: [
@@ -158,7 +161,7 @@ const ExamplePromptsGrid = ({ onPromptSelect }) => {
         {/* Header */}
         <div className="flex items-center gap-2 mb-4">
           <Sparkles className="w-5 h-5 text-purple-400" />
-          <h3 className="text-lg font-semibold text-slate-800 dark:text-white">Example Prompts</h3>
+          <h3 className="text-lg font-semibold text-slate-800 dark:text-white">{t('examples.title')}</h3>
         </div>
 
         {/* Grid Layout: 6x1 on small screens (below 620px), 2x3 on medium, 3x2 on large */}
@@ -178,6 +181,7 @@ const ExamplePromptsGrid = ({ onPromptSelect }) => {
 };
 
 const CategorySlider = ({ category, onPromptSelect, delay }) => {
+  const { t } = useTranslation();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isAutoSliding, setIsAutoSliding] = useState(true);
 
@@ -230,7 +234,7 @@ const CategorySlider = ({ category, onPromptSelect, delay }) => {
           <div className={`w-6 h-6 rounded-full bg-gradient-to-r ${category.gradient} flex items-center justify-center text-sm`}>
             {category.emoji}
           </div>
-          <h4 className="font-medium text-sm text-slate-800 dark:text-white">{category.title}</h4>
+          <h4 className="font-medium text-sm text-slate-800 dark:text-white">{t(category.titleKey)}</h4>
         </div>
       </div>
 
@@ -251,7 +255,7 @@ const CategorySlider = ({ category, onPromptSelect, delay }) => {
           >
             <img
               src={category.examples[currentIndex].image}
-              alt={category.title}
+              alt={t(category.titleKey)}
               className="w-full h-full object-cover rounded-lg"
               loading="lazy"
             />
@@ -264,7 +268,7 @@ const CategorySlider = ({ category, onPromptSelect, delay }) => {
                 className="text-center text-white p-2"
               >
                 <Star className="w-5 h-5 mx-auto mb-1" />
-                <p className="text-xs font-medium">Click to use</p>
+                <p className="text-xs font-medium">{t('examples.clickToUse')}</p>
               </motion.div>
             </div>
           </motion.div>
@@ -312,7 +316,7 @@ const CategorySlider = ({ category, onPromptSelect, delay }) => {
           className={`w-full py-2 px-3 rounded-lg bg-gradient-to-r ${category.gradient} text-white text-xs font-medium hover:opacity-90 transition-opacity duration-200 flex items-center justify-center gap-1`}
         >
           <Star className="w-3 h-3" />
-          TRY THIS PROMPT
+          {t('examples.tryThisPrompt')}
         </button>
       </div>
     </motion.div>

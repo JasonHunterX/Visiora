@@ -305,5 +305,49 @@ export const zhCN = {
       lightningFast: '闪电般快速'
     },
     cta: '立即开始创作'
+  },
+
+  // 示例提示词
+  examples: {
+    title: '示例提示词',
+    clickToUse: '点击使用',
+    tryThisPrompt: '试试这个提示词',
+    categories: {
+      anime: '动漫',
+      nature: '自然',
+      space: '太空',
+      streets: '街景',
+      ghibliPixar: '吉卜力/皮克斯',
+      misc: '其他'
+    }
+  },
+
+  // 历史记录
+  history: {
+    title: '图像历史',
+    local: '本地',
+    cloud: '云端',
+    clearAll: '清空全部',
+    loading: '正在加载您的图像...',
+    noHistoryYet: '还没有历史记录',
+    noHistoryYetDesc: '您生成的图像将显示在这里。开始创作来建立您的收藏！',
+    noCloudImages: '没有云端图像',
+    noCloudImagesDesc: '您在登录状态下生成的图像将保存到云端历史记录中。',
+    generateImage: '生成图像',
+    prompt: '提示词',
+    model: '模型',
+    dimensions: '尺寸',
+    generatedOn: '生成时间',
+    noPromptAvailable: '没有可用的提示词',
+    useThisPrompt: '使用此提示词',
+    downloadImage: '下载图像',
+    deleteImage: '删除图像',
+    clearAllHistoryTitle: '清空所有历史记录',
+    clearAllHistoryDesc: '您确定要清空整个生成历史记录吗？此操作无法撤销。',
+    deleteImageTitle: '删除此图像',
+    deleteImageDesc: '您确定要从历史记录中删除此图像吗？此操作无法撤销。',
+    cancel: '取消',
+    delete: '删除',
+    unknownDate: '未知日期'
   }
 };

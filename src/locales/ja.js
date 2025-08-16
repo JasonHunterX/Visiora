@@ -305,5 +305,49 @@ export const ja = {
       lightningFast: '超高速'
     },
     cta: '今すぐ作成開始'
+  },
+
+  // サンプルプロンプト
+  examples: {
+    title: 'サンプルプロンプト',
+    clickToUse: 'クリックして使用',
+    tryThisPrompt: 'このプロンプトを試す',
+    categories: {
+      anime: 'アニメ',
+      nature: '自然',
+      space: '宇宙',
+      streets: '街並み',
+      ghibliPixar: 'ジブリ/ピクサー',
+      misc: 'その他'
+    }
+  },
+
+  // 履歴セクション
+  history: {
+    title: '画像履歴',
+    local: 'ローカル',
+    cloud: 'クラウド',
+    clearAll: 'すべてクリア',
+    loading: '画像を読み込み中...',
+    noHistoryYet: '履歴がありません',
+    noHistoryYetDesc: '生成された画像がここに表示されます。コレクションを作成するために作成を開始しましょう！',
+    noCloudImages: 'クラウド画像がありません',
+    noCloudImagesDesc: 'ログイン中に生成した画像はクラウド履歴に保存されます。',
+    generateImage: '画像を生成',
+    prompt: 'プロンプト',
+    model: 'モデル',
+    dimensions: 'サイズ',
+    generatedOn: '生成日時',
+    noPromptAvailable: '利用可能なプロンプトがありません',
+    useThisPrompt: 'このプロンプトを使用',
+    downloadImage: '画像をダウンロード',
+    deleteImage: '画像を削除',
+    clearAllHistoryTitle: 'すべての履歴をクリア',
+    clearAllHistoryDesc: '生成履歴をすべてクリアしてもよろしいですか？この操作は元に戻せません。',
+    deleteImageTitle: 'この画像を削除',
+    deleteImageDesc: 'この画像を履歴から削除してもよろしいですか？この操作は元に戻せません。',
+    cancel: 'キャンセル',
+    delete: '削除',
+    unknownDate: '不明な日付'
   }
 };

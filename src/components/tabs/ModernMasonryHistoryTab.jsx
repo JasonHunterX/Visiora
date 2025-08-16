@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { getUserGeneratedImages } from "../../api/imageServiceV2";
 import { useAuthContext } from "../../contexts/AuthContextV2";
+import { useTranslation } from "../../contexts/LanguageContext";
 import GlassCard from "../ui/GlassCard";
 import CustomButton from "../ui/CustomButton";
 import ExamplePromptsGrid from "../examples/ExamplePromptsGrid";
@@ -30,6 +31,7 @@ const ModernMasonryHistoryTab = memo(({
   handleClearAllHistory,
 }) => {
   const { user } = useAuthContext();
+  const { t } = useTranslation();
   const [selectedImage, setSelectedImage] = useState(null);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(null);
   const [cloudImages, setCloudImages] = useState([]);
@@ -108,7 +110,7 @@ const ModernMasonryHistoryTab = memo(({
             minute: '2-digit'
           });
     } catch {
-      return "Unknown date";
+      return t('history.unknownDate');
     }
   };
 
@@ -153,13 +155,14 @@ const ModernMasonryHistoryTab = memo(({
       }))
     : history;
 
-  // Masonry breakpoints
+  // Optimized masonry breakpoints for better visual balance
   const breakpointColumns = {
-    default: 3,
-    1280: 3,
-    1024: 2,
-    768: 2,
-    640: 1
+    default: 4,     // 4 columns for very large screens (1400px+)
+    1400: 4,        // 4 columns for large desktop
+    1200: 3,        // 3 columns for desktop
+    900: 2,         // 2 columns for tablet landscape  
+    600: 2,         // 2 columns for tablet portrait
+    480: 1          // 1 column for mobile
   };
 
   // Animation variants for staggered appearance
@@ -186,7 +189,7 @@ const ModernMasonryHistoryTab = memo(({
           <div className="flex items-center gap-2">
             <History className="w-5 h-5 text-purple-500" />
             <h2 className="text-xl font-semibold text-slate-800 dark:text-white">
-              Image History
+              {t('history.title')}
             </h2>
           </div>
 
@@ -203,7 +206,7 @@ const ModernMasonryHistoryTab = memo(({
                   )}
                   onClick={() => setActiveHistoryTab('local')}
                 >
-                  Local
+                  {t('history.local')}
                 </button>
                 <button
                   className={cn(
@@ -215,7 +218,7 @@ const ModernMasonryHistoryTab = memo(({
                   onClick={() => setActiveHistoryTab('cloud')}
                 >
                   <Cloud size={14} />
-                  Cloud
+                  {t('history.cloud')}
                 </button>
               </div>
             )}
@@ -228,7 +231,7 @@ const ModernMasonryHistoryTab = memo(({
                 onClick={() => setShowDeleteConfirm('all')}
                 icon={Trash2}
               >
-                Clear All
+                {t('history.clearAll')}
               </CustomButton>
             )}
           </div>
@@ -240,7 +243,7 @@ const ModernMasonryHistoryTab = memo(({
         <div className="flex justify-center my-12">
           <div className="space-y-4 text-center">
             <div className="w-10 h-10 border-4 border-purple-500/30 border-t-purple-500 rounded-full animate-spin mx-auto" />
-            <p className="text-slate-600 dark:text-slate-300">Loading your images...</p>
+            <p className="text-slate-600 dark:text-slate-300">{t('history.loading')}</p>
           </div>
         </div>
       )}
@@ -260,20 +263,20 @@ const ModernMasonryHistoryTab = memo(({
               <div>
                 <h3 className="text-xl font-semibold text-slate-800 dark:text-white mb-2">
                   {activeHistoryTab === 'cloud' 
-                    ? "No Cloud Images" 
-                    : "No History Yet"}
+                    ? t('history.noCloudImages') 
+                    : t('history.noHistoryYet')}
                 </h3>
                 <p className="text-slate-600 dark:text-white/60 leading-relaxed">
                   {activeHistoryTab === 'cloud'
-                    ? "Images you generate while logged in will be saved to your cloud history."
-                    : "Your generated images will appear here. Start creating to build your collection!"}
+                    ? t('history.noCloudImagesDesc')
+                    : t('history.noHistoryYetDesc')}
                 </p>
               </div>
               <CustomButton
                 onClick={() => setActiveTab("generate")}
                 variant="primary"
               >
-                Generate an Image
+                {t('history.generateImage')}
               </CustomButton>
             </div>
           </GlassCard>
@@ -297,35 +300,12 @@ const ModernMasonryHistoryTab = memo(({
               <motion.div 
                 key={item.id} 
                 variants={itemVariants}
-                className="masonry-item"
+                className="masonry-item masonry-fade-in"
               >
-                <div className="break-inside-avoid rounded-xl overflow-hidden relative group">
-                  <div className="relative">
-                    <img
-                      src={item.imageUrl}
-                      alt={item.prompt}
-                      className="w-full h-auto object-contain transition-transform duration-300 ease-in-out group-hover:scale-105"
-                      onClick={() => handleImageClick(item)}
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = "https://via.placeholder.com/400x225?text=Image+Unavailable";
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end justify-end p-3">
-                      <div className="flex items-center gap-1">
-                        <button
-                          className="bg-white/20 hover:bg-white/30 text-white p-2 rounded-full flex items-center justify-center transition-all"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleImageClick(item);
-                          }}
-                        >
-                          <Eye size={14} />
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <ImageCard 
+                  item={item}
+                  onImageClick={handleImageClick}
+                />
               </motion.div>
             ))}
           </Masonry>
@@ -380,16 +360,16 @@ const ModernMasonryHistoryTab = memo(({
                   <div className="space-y-3">
                     <div>
                       <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                        Prompt
+                        {t('history.prompt')}
                       </h4>
                       <p className="text-sm text-slate-900 dark:text-white">
-                        {selectedImage.prompt || "No prompt available"}
+                        {selectedImage.prompt || t('history.noPromptAvailable')}
                       </p>
                     </div>
 
                     <div>
                       <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                        Model
+                        {t('history.model')}
                       </h4>
                       <p className="text-sm text-slate-900 dark:text-white">
                         {selectedImage.model || "Flux"}
@@ -398,7 +378,7 @@ const ModernMasonryHistoryTab = memo(({
 
                     <div>
                       <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                        Dimensions
+                        {t('history.dimensions')}
                       </h4>
                       <p className="text-sm text-slate-900 dark:text-white">
                         {selectedImage.dimensions || "1024x1024"}
@@ -407,7 +387,7 @@ const ModernMasonryHistoryTab = memo(({
 
                     <div>
                       <h4 className="text-xs font-semibold uppercase tracking-wider text-slate-500 dark:text-slate-400">
-                        Generated on
+                        {t('history.generatedOn')}
                       </h4>
                       <div className="flex items-center gap-1">
                         <Calendar size={14} className="text-slate-500 dark:text-slate-400" />
@@ -425,7 +405,7 @@ const ModernMasonryHistoryTab = memo(({
                       onClick={() => handleUsePrompt(selectedImage.prompt)}
                       icon={Copy}
                     >
-                      Use This Prompt
+                      {t('history.useThisPrompt')}
                     </CustomButton>
                     
                     <CustomButton
@@ -434,7 +414,7 @@ const ModernMasonryHistoryTab = memo(({
                       onClick={() => handleDownload(selectedImage.imageUrl, selectedImage.prompt)}
                       icon={Download}
                     >
-                      Download Image
+                      {t('history.downloadImage')}
                     </CustomButton>
                     
                     <CustomButton
@@ -447,7 +427,7 @@ const ModernMasonryHistoryTab = memo(({
                       }}
                       icon={Trash2}
                     >
-                      Delete Image
+                      {t('history.deleteImage')}
                     </CustomButton>
                   </div>
                 </div>
@@ -480,20 +460,20 @@ const ModernMasonryHistoryTab = memo(({
                 </div>
                 <h3 className="text-lg font-medium text-slate-900 dark:text-white mb-2">
                   {showDeleteConfirm === 'all'
-                    ? 'Clear All History'
-                    : 'Delete This Image'}
+                    ? t('history.clearAllHistoryTitle')
+                    : t('history.deleteImageTitle')}
                 </h3>
                 <p className="text-slate-500 dark:text-slate-300 mb-6">
                   {showDeleteConfirm === 'all'
-                    ? 'Are you sure you want to clear your entire generation history? This action cannot be undone.'
-                    : 'Are you sure you want to delete this image from your history? This action cannot be undone.'}
+                    ? t('history.clearAllHistoryDesc')
+                    : t('history.deleteImageDesc')}
                 </p>
                 <div className="flex justify-center gap-3">
                   <CustomButton
                     variant="outline"
                     onClick={() => setShowDeleteConfirm(null)}
                   >
-                    Cancel
+                    {t('history.cancel')}
                   </CustomButton>
                   <CustomButton
                     variant="destructive"
@@ -523,7 +503,7 @@ const ModernMasonryHistoryTab = memo(({
                       setShowDeleteConfirm(null);
                     }}
                   >
-                    Delete
+                    {t('history.delete')}
                   </CustomButton>
                 </div>
               </div>
@@ -534,6 +514,101 @@ const ModernMasonryHistoryTab = memo(({
     </div>
   );
 });
+
+// Optimized ImageCard component with better loading and hover effects
+const ImageCard = memo(({ item, onImageClick }) => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+
+  const handleImageLoad = () => {
+    setIsLoading(false);
+  };
+
+  const handleImageError = () => {
+    setIsLoading(false);
+    setHasError(true);
+  };
+
+  return (
+    <div className="group relative rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800/50 shadow-sm cursor-pointer border border-slate-200/50 dark:border-slate-700/50 masonry-hover-effect">
+      {/* Enhanced loading placeholder with skeleton */}
+      {isLoading && (
+        <div className="absolute inset-0 z-10">
+          <div className="w-full h-48 bg-slate-200 dark:bg-slate-700 masonry-skeleton" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div className="w-8 h-8 border-2 border-purple-500/30 border-t-purple-500 rounded-full animate-spin" />
+          </div>
+        </div>
+      )}
+      
+      {/* Main image container */}
+      <div className="relative overflow-hidden">
+        <img
+          src={hasError ? "https://via.placeholder.com/400x400/e2e8f0/64748b?text=Image+Unavailable" : item.imageUrl}
+          alt={item.prompt || 'Generated image'}
+          className={cn(
+            "w-full h-auto object-cover transition-all duration-500 ease-out",
+            "group-hover:scale-105",
+            isLoading ? "opacity-0" : "opacity-100"
+          )}
+          onClick={() => onImageClick(item)}
+          onLoad={handleImageLoad}
+          onError={handleImageError}
+          loading="lazy"
+        />
+        
+        {/* Gradient overlay with enhanced hover effect */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-300">
+          <div className="absolute bottom-0 left-0 right-0 p-4">
+            {/* Prompt preview */}
+            <p className="text-white text-xs leading-relaxed line-clamp-2 mb-3 drop-shadow-lg">
+              {item.prompt ? 
+                (item.prompt.length > 80 ? `${item.prompt.substring(0, 80)}...` : item.prompt) 
+                : 'No prompt available'
+              }
+            </p>
+            
+            {/* Action buttons */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2 text-white/80 text-xs">
+                {item.timestamp && (
+                  <span className="flex items-center gap-1">
+                    <Calendar size={12} />
+                    {item.timestamp}
+                  </span>
+                )}
+              </div>
+              
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                className="bg-white/20 hover:bg-white/30 backdrop-blur-sm text-white p-2.5 rounded-full flex items-center justify-center transition-all duration-200 border border-white/20"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onImageClick(item);
+                }}
+              >
+                <Eye size={16} />
+              </motion.button>
+            </div>
+          </div>
+        </div>
+        
+        {/* Top-right indicators */}
+        <div className="absolute top-3 right-3 flex items-center gap-1">
+          {item.isCloud && (
+            <div className="bg-blue-500/80 backdrop-blur-sm text-white px-2 py-1 rounded-full text-xs flex items-center gap-1">
+              <Cloud size={10} />
+              Cloud
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+});
+
+ImageCard.displayName = 'ImageCard';
 
 ModernMasonryHistoryTab.displayName = 'ModernMasonryHistoryTab';
 
