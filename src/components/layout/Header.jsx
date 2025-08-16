@@ -64,14 +64,14 @@ const Header = ({ isDarkMode, onThemeChange }) => {
 
           {/* Right side - Language, Theme Toggle and Auth */}
           <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
-            <UserProfileButtonFixed onLoginClick={() => {
+            {/* <UserProfileButtonFixed onLoginClick={() => {
               setIsAuthModalOpen(true);
               // Default to login tab
               setAuthModalMode('login');
             }} />
-            
+             */}
             {/* Only show Sign Up button when user is not logged in */}
-            {!user && (
+            {/* {!user && (
               <Button
                 onClick={() => {
                   setIsAuthModalOpen(true);
@@ -89,15 +89,15 @@ const Header = ({ isDarkMode, onThemeChange }) => {
                   <span>{t('header.signUp')}</span>
                 </div>
               </Button>
-            )}
+            )} */}
             
             <LanguageSwitcher className="hidden sm:block" />
             
-            <ModernThemeToggle 
+            {/* <ModernThemeToggle 
               isDarkMode={isDarkMode} 
               onToggle={onThemeChange}
               className="relative"
-            />
+            /> */}
           </div>
         </div>
       </div>

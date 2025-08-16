@@ -581,7 +581,7 @@ function App({ authContext, showLoginPrompt, setShowLoginPrompt }) {
       </main>
 
       {/* Footer */}
-      <Footer />
+      {/* <Footer /> */}
       
       {/* Auth Modal */}
       <Suspense fallback={null}>
