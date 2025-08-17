@@ -10,10 +10,10 @@ import { useTranslation } from "../../contexts/LanguageContext";
 import { cn } from "../../utils/cn";
 
 const ModernEnhanceTab = memo(({
-  inputPrompt,
-  setInputPrompt,
-  isEnhancing,
-  handleEnhancePrompt,
+  inputPrompt = "",
+  setInputPrompt = () => {},
+  isEnhancing = false,
+  handleEnhancePrompt = () => {},
 }) => {
   const { t } = useTranslation();
   const [selectedStyles, setSelectedStyles] = useState([]);

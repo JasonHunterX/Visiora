@@ -2,7 +2,11 @@
   "permissions": {
     "allow": [
       "Bash(npm run lint)",
-      "Bash(npm run dev:*)"
+      "Bash(npm run dev:*)",
+      "Bash(mvn clean:*)",
+      "Bash(curl:*)",
+      "Bash(cp:*)",
+      "Bash(lsof:*)"
     ],
     "defaultMode": "acceptEdits"
   }

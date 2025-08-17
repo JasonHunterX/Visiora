@@ -34,7 +34,7 @@ const LoadingSpinner = () => (
 const AppContent = () => {
   const { t } = useTranslation();
   const { user, isAuthenticated, loading } = useBackendAuthContext();
-  const isDark = useTheme();
+  const [isDark] = useTheme();
   
   // State management
   const [activeTab, setActiveTab] = useState("generate");
